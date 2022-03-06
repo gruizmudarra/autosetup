@@ -4,7 +4,7 @@
 # Original author: Shubham Pathak                                                                #
 # Edited by: Germán Ruiz-Mudarra 																 #
 # Description: Auto setup bash script to setup required programs after doing fresh install.      # 
-# Tested against Debian based distributions like Ubuntu and Kali Linux.                          #        
+# Tested against Ubuntu 20.04																	 #        
 ##################################################################################################
 
 c='\e[32m' # Coloured echo (Green)
@@ -75,82 +75,9 @@ echo -e "${c}Creating Directory named 'tools' inside $HOME directory."; $r
 cd
 mkdir -p tools
 
-
-
-installPython3() {
-	sudo apt install -y python3
-	echo -e "${c}Installing pip and ipython"; $r
-	sudo apt install -y python3-pip python3-setuptools
-	sudo pip install ipython
-	echo -e "${c}Installing development environment and virtualenv for Python"; $r
-	sudo apt install -y build-essential libssl-dev libffi-dev python3-dev python3-venv
-}
-
-installSnap() {
-	#Snap Installation & Setup
-	echo -e "${c}Installing Snap & setting up."; $r
-	sudo apt install -y snapd
-	sudo systemctl start snapd
-	sudo systemctl enable snapd
-	sudo systemctl start apparmor
-	sudo systemctl enable apparmor
-	export PATH=$PATH:/snap/bin
-	sudo snap refresh
-}
-
-installCode() {
-	sudo snap install code --classic
-}
-
-installChromium() {
-	sudo apt install chromium-browser
-}
-
-installROSMelodic() {
-	sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'	
-	curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-	sudo apt update
-	sudo apt install ros-melodic-desktop-full
-	
-	read -p "${y}Using zsh? (y/n): " -r; $r
-	echo
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		echo -e "${c}Setting up ROS in the .zshrc"; $r
-		echo "source /opt/ros/noetic/setup.zsh" >> ~/.zshrc
-		source ~/.zshrc
-	else
-		echo -e "${c}Setting up ROS in the .bashrc"; $r
-		echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
-		source ~/.bashrc
-	fi
-	
-	sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential	sudo 
-	rosdep init
-	rosdep update
-}
-
-installROSNoetic() {
-	sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-	curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-	sudo apt update
-	sudo apt install ros-noetic-desktop-full
-	
-	read -p "${y}Using zsh? (y/n): " -r; $r
-	echo
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		echo -e "${c}Setting up ROS in the .zshrc"; $r
-		echo "source /opt/ros/noetic/setup.zsh" >> ~/.zshrc
-		source ~/.zshrc
-	else
-		echo -e "${c}Setting up ROS in the .bashrc"; $r
-		echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
-		source ~/.bashrc
-	fi
-	
-	sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
-	sudo rosdep init
-	rosdep update
-}
+source basic.sh
+source dev.sh
+source theme.sh
 
 checkInstalled() {
 	echo -e "${c}Checking if $1 is installed."; $r
@@ -175,7 +102,8 @@ options=(1 "Visual Studio Code" off
 	6 "ROS Melodic" off
 	7 "ROS Noetic" off
 	8 "Spotify" off
-	9 "Discord" off)
+	9 "Discord" off
+	10 "Hack Font" off)
 
 selected=$("${dialogbox[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
@@ -238,6 +166,12 @@ do
 		echo -e "${c}Installing Discord"; $r
 		sudo snap install discord
 		echo -e "${c}Discord installed successfully"; $r
+		;;
+
+		10)
+		echo -e "${c}Installing Hack Font"; $r
+		installFont
+		echo -e "${c}Hack font installed an set up successfully"; $r
 		;;
 
 	esac

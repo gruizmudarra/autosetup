@@ -1,11 +1,8 @@
 # autosetup
 Auto setup is a simple bash script (compatible with Debian-based distributions like Ubuntu and Kali) to install and set up necessary software/tools after doing Fresh Install.
 
-> The script is completely based on InfoSec/Bug Bounty reconnaissance tools as well as some apps I use regularly like Skype, Chrome, etc.
+> The script is completely based on the apps I use regularly to develop in Linux, like Discord, Chrome, ROS, VSCode, etc.
 > You can modify it according to your need.
-
-![AutoSetup.sh](https://user-images.githubusercontent.com/20816337/130368587-124ebdb6-4d96-4716-85f0-c1866d8d8eda.png)
-![AutoSetup.sh](https://user-images.githubusercontent.com/20816337/130368430-56b15e47-2c80-4dcc-b336-f9c41a6f274d.png)
 
 ## Usage
 
@@ -30,36 +27,50 @@ But, before opening the dialogbox, it'll perform the following operations:
 ## List
 
 * Visual Studio Code
-* Daniel Miessler's SecLists
 * Python3, virtualenv, pip3
-* Go
-* Rbenv
-* Amazon Corretto (OpenJDK)
-* Masscan
-* Chrome
-* NMAP
-* Drozer Framework
-* Jadx
-* httprobe
-* SQLMAP
-* Nuclei
-* i3 Window Manager
-* Aquatone
-* Skype
-* NodeJS
-* Sublime Text 3
+* Chromium
 * Wireshark
-* Amass
-* Knockpy
-* Dirsearch
-* LinkFinder
 * Virtual Box
+* ROS Melodic
+* ROS Noetic
+* Spotify
+* Discord
 
-## Note
+## To-add
+* OBS
+* Freecad
 
-Tested on Ubuntu 16.04, 18.04, 20.04, Kali Linux Vagrant boxes, but it should work with other Debian-based distributions as well.
+* Ask to change touchpad settings when laptop (natural vert and horiz scrolling)
+* Plank (download theme and set fixed icons)
+* Set theme `xfconf-query -c xsettings -p /Net/ThemeName -s "Sweet-mars-v40"`
+* Set window manager theme `xfconf-query -c xfwm4 -p /general/theme -s "Sweet-mars-v40"`
+* Set font 
+```bash
+# Pull font and unpack it
+curl -L -O https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.tar.gz
 
-## Contributions
+tar -xzvf Hack-v3.003-ttf.tar.gz
+# Create (if not created) the user level font folder
+mkdir ~/.local/share/fonts
 
-We hope that you will consider contributing to autosetup. Please read this short overview [Contribution Guidelines](https://github.com/shubhampathak/autosetup/blob/master/CONTRIBUTING.md) for some information about how to get started. 
+# Move it to that folder
+mv ttf/Hack-Regular.ttf ~/.local/share/fonts/Hack-Regular.ttf
+mv ttf/Hack-Italic.ttf ~/.local/share/fonts/Hack-Italic.ttf
+mv ttf/Hack-Bold.ttf ~/.local/share/fonts/Hack-Bold.ttf
+mv ttf/Hack-BoldItalic.ttf ~/.local/share/fonts/Hack-BoldItalic.ttf
+
+# Regenerate font cache
+fc-cache -f -v
+
+# Check
+fc-list | grep "Hack"
+
+# Set it 
+xfconf-query -c xsettings -p /Gtk/FontName -s "Hack"
+# Set monospace font
+xfconf-query -c xsettings -p /Gtk/MonospaceFontName -s "Monospace"
+```
+
+
+
 
